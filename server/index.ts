@@ -1,6 +1,7 @@
 import app from "./app";
 
-Bun.serve({
+const server = Bun.serve({
+    port: process.env.PORT || 3000,
     fetch: app.fetch
 });
-console.log('Server started at http://localhost:3000/')
+console.log('Server started at ',server.port);
