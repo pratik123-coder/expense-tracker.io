@@ -22,8 +22,18 @@ RUN apt-get update -qq && \
 COPY --link bun.lockb package.json ./
 RUN bun install --ci 
 
+#install frontend node modules 
+COPY --link frontend/bun.lockb frontend/package.json frontend/
+RUN cd frontend && bun install --ci
+
 #copy source code
 COPY --link . .
+
+#Change to frontend working directory and build 
+WORKDIR /app/frontend
+RUN bun run build
+#remove all files in frontend except dist
+RUN find . -maxdepth 1 ! -regex '^./dist\(/.*\)?' -delete 
 
 #final production stage
 FROM base 
