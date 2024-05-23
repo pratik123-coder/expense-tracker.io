@@ -33,7 +33,7 @@ COPY --link . .
 WORKDIR /app/frontend
 RUN bun run build
 #remove all files in frontend except dist
-RUN find . -maxdepth 1 ! -regex '^./dist\(/.*\)?' -delete 
+RUN find . -maxdepth 1 ! -name dist -exec rm -rf {} \;
 
 #final production stage
 FROM base 
