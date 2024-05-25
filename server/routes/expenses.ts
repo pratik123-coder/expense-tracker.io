@@ -28,7 +28,6 @@ export const expensesRoute = new Hono()
     return c.json({expenses:fakeExpenses})
 })
 
-
 .get('/:id{[0-9]+}',(c)=>{
     const id = Number.parseInt(c.req.param("id"))
     const expense = fakeExpenses.find(expense => expense.id === id)
@@ -36,7 +35,8 @@ export const expensesRoute = new Hono()
     return c.json({expense})
 })
 
-.get('/total-spent',(c)=>{
+.get('/total-spent',async(c)=>{
+    await new Promise((r)=>{setTimeout(r,2000)})
     const totalSpent = fakeExpenses.reduce((acc,expense)=>acc+expense.amount,0)
     return c.json({totalSpent})
 })
