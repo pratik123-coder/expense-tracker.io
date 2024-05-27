@@ -26,6 +26,7 @@ function CreateExpense() {
       title: '',
       amount: '',
       category: '',
+      date: new Date(),
     },
     onSubmit: async ({ value }) => {
       const data = {

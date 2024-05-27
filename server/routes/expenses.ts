@@ -4,9 +4,9 @@ import { zValidator } from '@hono/zod-validator'
 
 //Fake Database
 const fakeExpenses: Expense[] = [
-    { id: 1, title: "Car Insurance", amount: 294.67 },
-    { id: 2, title: "Rent", amount: 1000 },
-    { id: 3, title: "Groceries", amount: 200 },
+    { id: 1, title: "Car Insurance", amount: 294.67, date: new Date()},
+    { id: 2, title: "Rent", amount: 1000 ,date: new Date()},
+    { id: 3, title: "Groceries", amount: 200 ,date: new Date()},
 ];
 
 //Code for the schema
@@ -15,6 +15,7 @@ const expenseSchema = z.object({
     id: z.number().int().positive().min(1),
     title: z.string().min(3).max(100),
     amount: z.number().int().positive(),
+    date: z.date(),
 });
 
 type Expense = z.infer<typeof expenseSchema>;

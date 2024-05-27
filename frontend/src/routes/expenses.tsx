@@ -42,6 +42,8 @@ async function getAllExpenses(){
                 <TableHead className="w-[100px]">Id</TableHead>
                 <TableHead>Title</TableHead>
                 <TableHead>Amount</TableHead>
+                <TableHead>Date</TableHead>
+                <TableRow>Catagory</TableRow>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -57,6 +59,9 @@ async function getAllExpenses(){
                   <TableCell>
                     <Skeleton className='h-4'/>  
                   </TableCell>
+                  <TableCell>
+                    <Skeleton className='h-4'/>  
+                  </TableCell>
                 </TableRow>
               ))
               :data?.expenses.map((expense) => (
@@ -64,6 +69,8 @@ async function getAllExpenses(){
                       <TableCell className="font-medium">{expense.id}</TableCell>
                       <TableCell>{expense.title}</TableCell>
                       <TableCell>{expense.amount}</TableCell>
+                      <TableCell>{expense.date}</TableCell>
+                      <TableCell>{new Date(expense.date).toLocaleDateString()}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

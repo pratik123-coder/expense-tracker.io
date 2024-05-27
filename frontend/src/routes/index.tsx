@@ -34,7 +34,7 @@ function Index() {
   if (error) return "An Error Occurred : "+ error.message;
 
   return (
-    <div className=" h-screen flex justify-center items-center">
+    <div className="flex justify-center w-full my-auto">
     <Card className="w-[350px]">
       <CardHeader>
         <CardTitle>Total Spent</CardTitle>
