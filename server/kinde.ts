@@ -1,6 +1,7 @@
-import { createKindeServerClient, GrantType, type SessionManager } from "@kinde-oss/kinde-typescript-sdk";
+import { createKindeServerClient, GrantType, type SessionManager, type UserType } from "@kinde-oss/kinde-typescript-sdk";
 import type { Context } from "hono";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
+import { createFactory, createMiddleware } from 'hono/factory'
 import { z } from "zod";
 
 const KindeEnv = z.object({
@@ -54,3 +55,27 @@ export const sessionManager = (c: Context): SessionManager => ({
       });
     },
   });
+
+
+  //Middleware
+  type Env = {
+    Variables: {
+      user: UserType;
+    }
+  }
+
+  export const getUser = createMiddleware<Env>(async (c, next) => {
+    try {
+      const manager = sessionManager(c);
+      const isAuthenticated = await kindeClient.isAuthenticated(manager);
+      if (!isAuthenticated) {
+        return c.json({ error: "User is not authenticated" }, 401);
+      }
+      const user = await kindeClient.getUserProfile(manager);
+      c.set("user", user);
+      await next();
+    } catch (error) {
+      console.error(error);
+      return c.json({ error: "User is not authenticated" }, 401);
+    }
+  })
